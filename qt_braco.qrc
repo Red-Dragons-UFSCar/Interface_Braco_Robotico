@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="logo">
+    <file>logos_drawio.png</file>
+  </qresource>
+</RCC>

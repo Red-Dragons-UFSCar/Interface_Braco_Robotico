@@ -8,6 +8,7 @@ from matplotlib.backends.backend_qt5agg import (NavigationToolbar2QT as Navigati
 
 import numpy as np
 import random
+import logo
      
 class MatplotlibWidget(QMainWindow):
     
@@ -16,7 +17,11 @@ class MatplotlibWidget(QMainWindow):
         QMainWindow.__init__(self)
 
         loadUi("qt_braco_robo.ui",self)
-
+        width = 1004
+        height = 702
+        
+        # Colocando tamanho da janela fixo
+        self.setFixedSize(width, height)
         self.setWindowTitle("Controle Manipulador Robótico - RE")
 
         self.play_bt.clicked.connect(self.update_graph)

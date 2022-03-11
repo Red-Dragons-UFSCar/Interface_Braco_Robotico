@@ -651,7 +651,7 @@ QSlider::handle:horizontal:pressed{background-color: rgb(200, 200, 200);}</strin
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-image: url(:/logo/logos.drawio.png);
+          <string notr="true">background-image: url(:/logo/logos_drawio.png);
 background-repeat: not-repeat;</string>
          </property>
          <property name="frameShape">
