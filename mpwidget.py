@@ -20,5 +20,5 @@ class MpWidget(QWidget):
         vertical_layout = QVBoxLayout()
         vertical_layout.addWidget(self.canvas)
 
-        self.canvas.axes = self.canvas.figure.add_subplot(111)
+        self.canvas.axes = self.canvas.figure.add_subplot()
         self.setLayout(vertical_layout)
