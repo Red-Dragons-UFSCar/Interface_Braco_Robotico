@@ -4,44 +4,40 @@
 from PyQt5.QtWidgets import*
 from PyQt5.uic import loadUi
 
-from matplotlib.backends.backend_qt5agg import (NavigationToolbar2QT as NavigationToolbar)
-
 import numpy as np
 import random
 import logo
 
-import matplotlib.pyplot as plt
-
 import sim , simConst
 import time
-from numpy import pi
+from numpy import pi, zeros
 
-class MatplotlibWidget(QMainWindow):
+class RobotWidget(QMainWindow):
 
     def __init__(self, clientid):
-        error = []
+        error = zeros(7)
         self.clientID = clientid
         
 
-        _,self.joint0h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/" ,sim.simx_opmode_blocking)
-        _,self.joint1h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/" ,sim.simx_opmode_blocking)
-        _,self.joint2h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/link/joint2" ,sim.simx_opmode_blocking)
-        _,self.joint3h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/link/joint2/link/joint3" ,sim.simx_opmode_blocking)
-        _,self.joint4h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/link/joint2/link/joint3/link/joint4" ,sim.simx_opmode_blocking)
-        error,self.gripper1h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/link/joint2/link/joint3/link/joint4/base/gripperCenter_joint/" ,sim.simx_opmode_blocking)
-        _,self.gripper2h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/link/joint2/link/joint3/link/joint4/base/gripperCenter_joint/fingerLeft/gripperClose_joint" ,sim.simx_opmode_blocking)
+        error[0],self.joint0h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/" ,sim.simx_opmode_blocking)
+        error[1],self.joint1h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/" ,sim.simx_opmode_blocking)
+        error[2],self.joint2h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/link/joint2" ,sim.simx_opmode_blocking)
+        error[3],self.joint3h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/link/joint2/link/joint3" ,sim.simx_opmode_blocking)
+        error[4],self.joint4h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/link/joint2/link/joint3/link/joint4" ,sim.simx_opmode_blocking)
+        error[5],self.gripper1h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/link/joint2/link/joint3/link/joint4/base/gripperCenter_joint/" ,sim.simx_opmode_blocking)
+        error[6],self.gripper2h = sim.simxGetObjectHandle(self.clientID, "/PhantomXPincher/joint0/link/joint1/link/joint2/link/joint3/link/joint4/base/gripperCenter_joint/fingerLeft/gripperClose_joint" ,sim.simx_opmode_blocking)
         
-        if error != 0:
-            print("Deu ruim!")
-            print(error)
+        if sum(error) == 0:
+            print("Todos os objetos foram encontrados e estão prontos!")
         else:
-            print("Foi mlk!")
+            print("Ocorreu algum erro com um ou mais objetos")
+            print(error)
 
         QMainWindow.__init__(self)
 
         loadUi("qt_braco_robo.ui",self)
-        width = 1004
-        height = 702
+        width = 500
+        height = 800
 
         # Colocando tamanho da janela fixo
         self.setFixedSize(width, height)
@@ -91,9 +87,8 @@ else:
     print('Connection not successful')
 
 sim.simxStartSimulation(clientID,sim.simx_opmode_blocking)
-error, joint0h = sim.simxGetObjectHandle(clientID, "/PhantomXPincher/joint0/" ,sim.simx_opmode_blocking)
 
 app = QApplication([])
-window = MatplotlibWidget(clientID)
+window = RobotWidget(clientID)
 window.show()
 app.exec_()

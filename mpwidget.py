@@ -4,7 +4,6 @@
 from PyQt5.QtWidgets import*
 
 from matplotlib.backends.backend_qt5agg import FigureCanvas
-from roboticstoolbox.backends.PyPlot import PyPlot
 
 from matplotlib.figure import Figure
 
